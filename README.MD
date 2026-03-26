@@ -42,7 +42,7 @@ The key insight: after `AssumeRole`, the actor identity changes from `compromise
 =================================================================
   Chain:     IAM_RECON_PRIVESC_S3_EXFIL
   Actor:     compromised-dev-user
-  Source IP: 49.43.24.78
+  Source IP: 49.4x.xx.xx
   MITRE:     T1580 · T1548 · T1530
 
   Timeline:
