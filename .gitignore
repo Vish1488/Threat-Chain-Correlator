@@ -14,7 +14,7 @@ attack.py
 
 # Project runtime files
 db/
-output/
+
 
 # IDE
 .vscode/

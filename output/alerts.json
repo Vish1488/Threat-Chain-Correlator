@@ -1,0 +1,35 @@
+[
+  {
+    "chain": "IAM_RECON_PRIVESC_S3_EXFIL",
+    "severity": "CRITICAL",
+    "actor": "compromised-dev-user",
+    "assumed_role": "assumed-role/priv-data-role",
+    "source_ip": "49.43.xx.xx",
+    "mitre_ttps": [
+      "T1580",
+      "T1548",
+      "T1530"
+    ],
+    "timeline": {
+      "recon_start": "xxxxxxxxxxxxx",
+      "privesc_time": "xxxxxxxxxxxxxxxxxx",
+      "exfil_time": "2xxxxxxxxxxxxxx"
+    },
+    "evidence": {
+      "recon_calls": [
+        "ListUsers",
+        "ListRoles",
+        "ListPolicies",
+        "ListGroups",
+        "GetAccountAuthorizationDetails"
+      ],
+      "roles_assumed": [
+        "priv-data-role"
+      ],
+      "buckets_accessed": [
+        "sensitive-data-threat-detection"
+      ]
+    },
+    "detected_at": "xxxxxxxxxxxxxxx"
+  }
+]
