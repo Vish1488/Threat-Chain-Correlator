@@ -1,0 +1,21 @@
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.env
+
+# AWS credentials - NEVER commit
+*.csv
+.aws/
+config.py
+attack.py
+
+# Project runtime files
+db/
+output/
+
+# IDE
+.vscode/
+.idea/

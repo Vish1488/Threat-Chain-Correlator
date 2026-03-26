@@ -1,0 +1,54 @@
+title: IAM Recon followed by Privilege Escalation and S3 Exfiltration
+description: |
+  Detects a multi-stage attack chain where an IAM principal
+  performs reconnaissance (listing IAM resources), then assumes
+  a privileged role, and subsequently accesses S3 objects.
+  Individual stages are low-fidelity; the full chain is high-fidelity.
+author: Pranav RVS
+date: 22-03-2026
+references:
+  - https://attack.mitre.org/techniques/T1580/
+  - https://attack.mitre.org/techniques/T1548/
+  - https://attack.mitre.org/techniques/T1530/
+tags:
+  - attack.discovery
+  - attack.privilege_escalation
+  - attack.exfiltration
+  - attack.t1580
+  - attack.t1548
+  - attack.t1530
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  stage_1_recon:
+    eventSource: iam.amazonaws.com
+    eventName|contains:
+      - ListUsers
+      - ListRoles
+      - ListPolicies
+      - ListGroups
+      - GetAccountAuthorizationDetails
+  stage_2_privesc:
+    eventSource: sts.amazonaws.com
+    eventName: AssumeRole
+  stage_3_exfil:
+    eventSource: s3.amazonaws.com
+    eventName|contains:
+      - GetObject
+      - ListObjects
+  timeframe: 15m
+  condition: |
+    stage_1_recon (>=3 events) and stage_2_privesc and stage_3_exfil
+    | same userIdentity.principalId
+    | ordered by eventTime
+falsepositives:
+  - Legitimate IAM admin performing routine access reviews
+  - Automated compliance tools with broad IAM read permissions
+fields:
+  - userIdentity.userName
+  - userIdentity.arn
+  - sourceIPAddress
+  - requestParameters.roleArn
+  - requestParameters.bucketName
+  - eventTime
